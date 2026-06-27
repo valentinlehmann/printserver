@@ -1,0 +1,5 @@
+# Allow native build scripts only for the packages we explicitly trust.
+# better-sqlite3 ships a native addon and must run its build script.
+onlyBuiltDependencies:
+  - better-sqlite3
+  - sharp
