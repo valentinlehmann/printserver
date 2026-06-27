@@ -1,0 +1,30 @@
+{
+  "printer-make-and-model": "Canon GX7000 series",
+  "printer-state": "idle",
+  "document-format-supported": [
+    "application/pdf",
+    "image/jpeg",
+    "image/pwg-raster",
+    "image/urf",
+    "application/octet-stream"
+  ],
+  "sides-supported": [
+    "one-sided",
+    "two-sided-long-edge",
+    "two-sided-short-edge"
+  ],
+  "print-color-mode-supported": ["color", "monochrome", "auto"],
+  "media-supported": [
+    "iso_a4_210x297mm",
+    "iso_a5_148x210mm",
+    "jis_b5_182x257mm",
+    "na_letter_8.5x11in",
+    "na_legal_8.5x14in",
+    "om_photo-10x15_100x150mm"
+  ],
+  "media-default": "iso_a4_210x297mm",
+  "copies-supported": { "lower": 1, "upper": 99 },
+  "number-up-supported": [1, 2, 4],
+  "print-quality-supported": [3, 4, 5],
+  "orientation-requested-supported": [3, 4, 5, 6]
+}

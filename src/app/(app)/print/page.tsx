@@ -1,17 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CapabilitiesBanner } from "@/components/capabilities-banner";
+import { PrintSettingsForm } from "@/components/print/print-settings-form";
+import { getPrinterCapabilities } from "@/lib/printer/capabilities";
 import { t } from "@/lib/messages";
 
-// TODO(M3/M4): replace this placeholder with the capability-driven print form.
-export default function PrintPage() {
+export const runtime = "nodejs";
+
+export default async function PrintPage() {
+  const capabilities = await getPrinterCapabilities();
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t.print.title}</CardTitle>
-        <CardDescription>{t.print.subtitle}</CardDescription>
-      </CardHeader>
-      <CardContent className="text-sm text-muted-foreground">
-        In Vorbereitung …
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-4 md:gap-6">
+      {capabilities.source === "fallback" && (
+        <CapabilitiesBanner message={t.printer.offlineBanner} />
+      )}
+      <PrintSettingsForm capabilities={capabilities} />
+    </div>
   );
 }
