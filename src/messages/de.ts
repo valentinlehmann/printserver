@@ -7,7 +7,7 @@
  */
 export const de = {
   common: {
-    appName: "Familie Drucker",
+    appName: "Printserver",
     cancel: "Abbrechen",
     close: "Schließen",
     download: "Herunterladen",
@@ -102,6 +102,7 @@ export const de = {
     submitting: "Wird gedruckt …",
     success: "Druckauftrag gesendet.",
     failed: "Druck fehlgeschlagen.",
+    failedFormat: "Der Drucker hat das Dateiformat abgelehnt.",
     noFile: "Bitte zuerst eine PDF-Datei auswählen.",
   },
 

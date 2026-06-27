@@ -124,7 +124,12 @@ export function PrintSettingsForm({
       form.append("settings", JSON.stringify(settings));
       const res = await fetch("/api/print", { method: "POST", body: form });
       if (!res.ok) {
-        toast.error(t.print.failed);
+        const data = (await res.json().catch(() => null)) as
+          | { statusCode?: string }
+          | null;
+        const isFormat =
+          data?.statusCode === "client-error-document-format-not-supported";
+        toast.error(isFormat ? t.print.failedFormat : t.print.failed);
         return;
       }
       toast.success(t.print.success);

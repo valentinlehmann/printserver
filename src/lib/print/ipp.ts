@@ -53,12 +53,80 @@ export interface PrintResult {
   jobId?: number;
   state?: string;
   statusCode?: string;
+  /** The document-format that was accepted (or last attempted). */
+  documentFormat?: string;
+  /** Formats the printer advertises (for diagnostics on failure). */
+  supportedFormats?: string[];
+}
+
+const FORMAT_NOT_SUPPORTED = "client-error-document-format-not-supported";
+
+/** The printer's document-format-supported list ([] if it can't be queried). */
+async function getSupportedFormats(): Promise<string[]> {
+  try {
+    const attrs = await queryPrinterAttributes();
+    const raw = attrs["document-format-supported"];
+    return Array.isArray(raw) ? raw.map(String) : raw ? [String(raw)] : [];
+  } catch {
+    return [];
+  }
+}
+
+interface SendResult {
+  statusCode?: string;
+  jobId?: number;
+  state?: string;
+}
+
+/** One Print-Job attempt with an explicit document-format. */
+function sendPrintJob(
+  pdf: Buffer,
+  jobAttributes: ipp.JobTemplateAttributes,
+  jobName: string,
+  documentFormat: string,
+): Promise<SendResult> {
+  const printer = newPrinter();
+  return new Promise<SendResult>((resolve, reject) => {
+    printer.execute(
+      "Print-Job",
+      {
+        "operation-attributes-tag": {
+          "requesting-user-name": "printerserver",
+          "job-name": jobName,
+          // documentFormat is negotiated at runtime; @types/ipp wants a literal.
+          "document-format": documentFormat,
+        },
+        "job-attributes-tag": jobAttributes,
+        data: pdf,
+      } as ipp.PrintJobRequest,
+      (
+        err: Error | null,
+        res: {
+          statusCode?: string;
+          "job-attributes-tag"?: { "job-id"?: number; "job-state"?: string };
+        },
+      ) => {
+        if (err) reject(err);
+        else
+          resolve({
+            statusCode: res.statusCode,
+            jobId: res["job-attributes-tag"]?.["job-id"],
+            state: res["job-attributes-tag"]?.["job-state"],
+          });
+      },
+    );
+  });
 }
 
 /**
- * Submit a PDF to the printer via a Print-Job operation. `jobAttributes` is the
- * IPP job-attributes-tag produced by toIppJobAttributes(). In PRINTER_MOCK mode
- * no network call is made and a synthetic success is returned.
+ * Submit a PDF via Print-Job, negotiating the document-format.
+ *
+ * Many printers (incl. the Canon GX7100) reject an explicit `application/pdf`
+ * even though they can print the bytes when told `application/octet-stream`
+ * (auto-detect). So we try the formats the printer advertises, preferring
+ * octet-stream, and retry on `document-format-not-supported`.
+ *
+ * In PRINTER_MOCK mode no network call is made.
  */
 export async function printPdf(
   pdf: Buffer,
@@ -69,36 +137,47 @@ export async function printPdf(
     return { ok: true, jobId: 1, state: "completed", statusCode: "successful-ok" };
   }
 
-  const printer = newPrinter();
-  const res = await new Promise<{
-    statusCode?: string;
-    "job-attributes-tag"?: { "job-id"?: number; "job-state"?: string };
-  }>((resolve, reject) => {
-    printer.execute(
-      "Print-Job",
-      {
-        "operation-attributes-tag": {
-          "requesting-user-name": "printerserver",
-          "job-name": jobName,
-          "document-format": "application/pdf",
-        },
-        "job-attributes-tag": jobAttributes,
-        data: pdf,
-      },
-      (err: Error | null, res) => {
-        if (err) reject(err);
-        else resolve(res as never);
-      },
-    );
-  });
+  const formats = await getSupportedFormats();
 
-  const statusCode = res.statusCode;
+  // Build the attempt order. octet-stream (auto-detect) is the most compatible.
+  const candidates: string[] = [];
+  if (formats.length === 0) {
+    candidates.push("application/octet-stream", "application/pdf");
+  } else {
+    if (formats.includes("application/octet-stream"))
+      candidates.push("application/octet-stream");
+    if (formats.includes("application/pdf")) candidates.push("application/pdf");
+    if (candidates.length === 0) candidates.push("application/octet-stream");
+  }
+
+  let last: SendResult = {};
+  for (const format of candidates) {
+    last = await sendPrintJob(pdf, jobAttributes, jobName, format);
+    const ok =
+      typeof last.statusCode === "string" &&
+      last.statusCode.startsWith("successful");
+    if (ok) {
+      return {
+        ok: true,
+        jobId: last.jobId,
+        state: last.state,
+        statusCode: last.statusCode,
+        documentFormat: format,
+        supportedFormats: formats,
+      };
+    }
+    if (last.statusCode !== FORMAT_NOT_SUPPORTED) break; // a different failure
+    console.error(
+      `[print] ${format} rejected (${last.statusCode}); printer supports: ${formats.join(", ") || "unknown"}`,
+    );
+  }
+
   return {
-    ok: typeof statusCode === "string" && statusCode.startsWith("successful"),
-    jobId: res["job-attributes-tag"]?.["job-id"],
-    state: res["job-attributes-tag"]?.["job-state"],
-    statusCode,
+    ok: false,
+    statusCode: last.statusCode,
+    documentFormat: candidates[candidates.length - 1],
+    supportedFormats: formats,
   };
-  // TODO(cups-fallback): if statusCode === "client-error-document-format-not-supported",
-  // route the job through CUPS (rasterize PDF) instead of direct IPP.
+  // TODO(cups-fallback): if every format is rejected the printer cannot render
+  // PDF directly — rasterize to image/pwg-raster (e.g. via CUPS) before sending.
 }
