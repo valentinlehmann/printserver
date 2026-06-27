@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    container_name: printerserver
+    restart: unless-stopped
+    # Bridge networking is fine on a Linux host: the container reaches the
+    # printer at PRINTER_IP over the LAN via the host's routing.
+    ports:
+      # Bind to localhost only; Caddy (on the same host) proxies to it.
+      - "127.0.0.1:3000:3000"
+    environment:
+      # --- Printer ---
+      PRINTER_IP: ${PRINTER_IP}
+      PRINTER_IPP_PORT: ${PRINTER_IPP_PORT:-631}
+      PRINTER_IPP_PATH: ${PRINTER_IPP_PATH:-/ipp/print}
+      PRINTER_ESCL_SCHEME: ${PRINTER_ESCL_SCHEME:-http}
+      PRINTER_ESCL_PORT: ${PRINTER_ESCL_PORT:-80}
+      PRINTER_ESCL_PATH: ${PRINTER_ESCL_PATH:-/eSCL}
+      PRINTER_MOCK: ${PRINTER_MOCK:-0}
+      # --- Auth (set these!) ---
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      PASSKEY_RP_ID: ${PASSKEY_RP_ID}
+      PASSKEY_RP_NAME: ${PASSKEY_RP_NAME:-Familie Drucker}
+      # --- Limits / persistence ---
+      DATABASE_PATH: /data/sqlite.db
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-100}
+      SCAN_JOB_TTL_SECONDS: ${SCAN_JOB_TTL_SECONDS:-900}
+      # --- First-run admin seed (logged enrollment link on first boot) ---
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-}
+      SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-Admin}
+    volumes:
+      - printerserver-data:/data
+
+volumes:
+  printerserver-data:

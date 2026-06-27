@@ -1,0 +1,23 @@
+# Example Caddy site block for the print server.
+# Caddy terminates TLS and proxies to the container on localhost:3000.
+#
+# IMPORTANT for passkeys (WebAuthn):
+#   - Serve over HTTPS on a stable domain.
+#   - The browser-visible host MUST equal PASSKEY_RP_ID and BETTER_AUTH_URL.
+#   - Caddy forwards the original Host by default (do not override it), so
+#     WebAuthn origin/rpID validation succeeds.
+
+print.example.com {
+    encode zstd gzip
+
+    # Allow large PDF uploads (keep a little above MAX_UPLOAD_MB).
+    request_body {
+        max_size 120MB
+    }
+
+    reverse_proxy 127.0.0.1:3000
+}
+
+# Corresponding app config (docker-compose .env):
+#   BETTER_AUTH_URL=https://print.example.com
+#   PASSKEY_RP_ID=print.example.com
