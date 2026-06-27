@@ -150,6 +150,31 @@ export const de = {
     canceled: "Scan abgebrochen.",
   },
 
+  admin: {
+    title: "Verwaltung",
+    subtitle: "Familienmitglieder anlegen und Einrichtungslinks erzeugen.",
+    createUserTitle: "Nutzer anlegen",
+    createUserDesc:
+      "Lege ein Konto an. Anschließend wird ein einmaliger Einrichtungslink erzeugt, den du teilen kannst.",
+    emailLabel: "E-Mail",
+    nameLabel: "Name",
+    createButton: "Anlegen & Link erzeugen",
+    creating: "Wird angelegt …",
+    errorMissingFields: "Bitte Name und E-Mail angeben.",
+    errorUserExists: "Es existiert bereits ein Konto mit dieser E-Mail.",
+    errorLink: "Einrichtungslink konnte nicht erzeugt werden.",
+    usersTitle: "Konten",
+    noUsers: "Noch keine Konten vorhanden.",
+    reissue: "Neuer Einrichtungslink",
+    linkLabel: "Einrichtungslink",
+    linkHint:
+      "Einmalig gültig. Teile ihn sicher mit dem Familienmitglied (z. B. per Messenger).",
+    copyLink: "Link kopieren",
+    linkCopied: "Link kopiert.",
+    roleAdmin: "Administrator",
+    roleUser: "Nutzer",
+  },
+
   printer: {
     offlineBanner:
       "Drucker nicht erreichbar – es werden Standardeinstellungen angezeigt.",

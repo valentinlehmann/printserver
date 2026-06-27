@@ -3,5 +3,6 @@
 # sharp / unrs-resolver ship prebuilt binaries, so their scripts are skipped.
 allowBuilds:
   better-sqlite3: true
+  esbuild: true
   sharp: false
   unrs-resolver: false

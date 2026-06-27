@@ -18,6 +18,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { authClient } from "@/lib/auth/auth-client";
+import { useRouter } from "next/navigation";
 import { t } from "@/lib/messages";
 
 function initials(name: string): string {
@@ -39,10 +41,11 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
 
-  // TODO(M2): wire to `authClient.signOut()` once the auth client exists.
-  function handleSignOut() {
-    /* placeholder until auth is implemented */
+  async function handleSignOut() {
+    await authClient.signOut();
+    router.replace("/login");
   }
 
   return (

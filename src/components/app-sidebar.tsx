@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { PrinterIcon, ScanLineIcon } from "lucide-react";
+import { PrinterIcon, ScanLineIcon, ShieldIcon } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/sidebar";
 import { t } from "@/lib/messages";
 
-// Primary navigation. Two destinations only — Drucken (print) and Scannen (scan).
+// Primary navigation. Two destinations for everyone — Drucken (print) and
+// Scannen (scan) — plus Verwaltung (admin) for admins only.
 const navMain = [
   { title: t.nav.print, url: "/print", icon: PrinterIcon },
   { title: t.nav.scan, url: "/scan", icon: ScanLineIcon },
@@ -30,8 +31,16 @@ type SidebarUser = {
 
 export function AppSidebar({
   user,
+  isAdmin = false,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { user: SidebarUser }) {
+}: React.ComponentProps<typeof Sidebar> & {
+  user: SidebarUser;
+  isAdmin?: boolean;
+}) {
+  const items = isAdmin
+    ? [...navMain, { title: t.nav.admin, url: "/admin", icon: ShieldIcon }]
+    : navMain;
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -50,7 +59,7 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMain} />
+        <NavMain items={items} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />

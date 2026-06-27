@@ -1,17 +1,25 @@
+import { redirect } from "next/navigation";
+
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { getSession } from "@/lib/auth/session";
 
 // Authenticated application shell (sidebar + header) shared by /print and /scan.
-//
-// TODO(M2): replace the placeholder user with the real session
-// (`auth.api.getSession`) and redirect unauthenticated visitors to /login.
-export default function AppLayout({
+// Authoritative session check: unauthenticated visitors are redirected to login.
+export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = { name: "Familienmitglied", email: "" };
+  const session = await getSession();
+  if (!session) redirect("/login");
+
+  const user = {
+    name: session.user.name || "Familienmitglied",
+    email: session.user.email,
+  };
+  const isAdmin = session.user.role === "admin";
 
   return (
     <SidebarProvider
@@ -22,7 +30,7 @@ export default function AppLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" user={user} />
+      <AppSidebar variant="inset" user={user} isAdmin={isAdmin} />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
