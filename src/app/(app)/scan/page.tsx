@@ -1,17 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CapabilitiesBanner } from "@/components/capabilities-banner";
+import { ScanSettingsForm } from "@/components/scan/scan-settings-form";
+import { getScannerCapabilities } from "@/lib/scan/capabilities";
 import { t } from "@/lib/messages";
 
-// TODO(M5/M6): replace this placeholder with the capability-driven scan form.
-export default function ScanPage() {
+export const runtime = "nodejs";
+
+export default async function ScanPage() {
+  const capabilities = await getScannerCapabilities();
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t.scan.title}</CardTitle>
-        <CardDescription>{t.scan.subtitle}</CardDescription>
-      </CardHeader>
-      <CardContent className="text-sm text-muted-foreground">
-        In Vorbereitung …
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-4 md:gap-6">
+      {capabilities.source === "fallback" && (
+        <CapabilitiesBanner message={t.printer.scannerOfflineBanner} />
+      )}
+      <ScanSettingsForm capabilities={capabilities} />
+    </div>
   );
 }

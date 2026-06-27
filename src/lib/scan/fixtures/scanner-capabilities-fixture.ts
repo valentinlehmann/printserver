@@ -1,0 +1,61 @@
+// Representative eSCL ScannerCapabilities response for a Canon GX7100-series
+// device (flatbed + duplex ADF). Used for offline mock + unit tests.
+export const GX7100_SCANNER_CAPS_XML = `<?xml version="1.0" encoding="UTF-8"?>
+<scan:ScannerCapabilities xmlns:scan="http://schemas.hp.com/imaging/escl/2011/05/03" xmlns:pwg="http://www.pwg.org/schemas/2010/12/sm">
+  <pwg:Version>2.6</pwg:Version>
+  <pwg:MakeAndModel>Canon GX7000 series</pwg:MakeAndModel>
+  <scan:Platen>
+    <scan:PlatenInputCaps>
+      <scan:MinWidth>16</scan:MinWidth>
+      <scan:MaxWidth>2550</scan:MaxWidth>
+      <scan:MaxHeight>3507</scan:MaxHeight>
+      <scan:SettingProfiles>
+        <scan:SettingProfile>
+          <scan:ColorModes>
+            <scan:ColorMode>BlackAndWhite1</scan:ColorMode>
+            <scan:ColorMode>Grayscale8</scan:ColorMode>
+            <scan:ColorMode>RGB24</scan:ColorMode>
+          </scan:ColorModes>
+          <scan:SupportedResolutions>
+            <scan:DiscreteResolutions>
+              <scan:DiscreteResolution><scan:XResolution>75</scan:XResolution><scan:YResolution>75</scan:YResolution></scan:DiscreteResolution>
+              <scan:DiscreteResolution><scan:XResolution>150</scan:XResolution><scan:YResolution>150</scan:YResolution></scan:DiscreteResolution>
+              <scan:DiscreteResolution><scan:XResolution>300</scan:XResolution><scan:YResolution>300</scan:YResolution></scan:DiscreteResolution>
+              <scan:DiscreteResolution><scan:XResolution>600</scan:XResolution><scan:YResolution>600</scan:YResolution></scan:DiscreteResolution>
+              <scan:DiscreteResolution><scan:XResolution>1200</scan:XResolution><scan:YResolution>1200</scan:YResolution></scan:DiscreteResolution>
+            </scan:DiscreteResolutions>
+          </scan:SupportedResolutions>
+        </scan:SettingProfile>
+      </scan:SettingProfiles>
+    </scan:PlatenInputCaps>
+  </scan:Platen>
+  <scan:Adf>
+    <scan:AdfSimplexInputCaps>
+      <scan:MaxWidth>2550</scan:MaxWidth>
+      <scan:MaxHeight>4200</scan:MaxHeight>
+      <scan:SettingProfiles>
+        <scan:SettingProfile>
+          <scan:ColorModes>
+            <scan:ColorMode>BlackAndWhite1</scan:ColorMode>
+            <scan:ColorMode>Grayscale8</scan:ColorMode>
+            <scan:ColorMode>RGB24</scan:ColorMode>
+          </scan:ColorModes>
+          <scan:SupportedResolutions>
+            <scan:DiscreteResolutions>
+              <scan:DiscreteResolution><scan:XResolution>150</scan:XResolution><scan:YResolution>150</scan:YResolution></scan:DiscreteResolution>
+              <scan:DiscreteResolution><scan:XResolution>300</scan:XResolution><scan:YResolution>300</scan:YResolution></scan:DiscreteResolution>
+              <scan:DiscreteResolution><scan:XResolution>600</scan:XResolution><scan:YResolution>600</scan:YResolution></scan:DiscreteResolution>
+            </scan:DiscreteResolutions>
+          </scan:SupportedResolutions>
+        </scan:SettingProfile>
+      </scan:SettingProfiles>
+    </scan:AdfSimplexInputCaps>
+    <scan:AdfDuplexInputCaps>
+      <scan:MaxWidth>2550</scan:MaxWidth>
+      <scan:MaxHeight>4200</scan:MaxHeight>
+    </scan:AdfDuplexInputCaps>
+    <scan:AdfOptions>
+      <scan:AdfOption>Duplex</scan:AdfOption>
+    </scan:AdfOptions>
+  </scan:Adf>
+</scan:ScannerCapabilities>`;

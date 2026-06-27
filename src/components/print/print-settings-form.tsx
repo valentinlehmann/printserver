@@ -15,13 +15,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Field, SettingSelect, type Option } from "@/components/settings-field";
 import { mediaLabel } from "@/lib/printer/media";
 import { parsePageRanges } from "@/lib/printer/page-ranges";
 import type {
@@ -30,48 +24,6 @@ import type {
   Sides,
 } from "@/lib/printer/types";
 import { t } from "@/lib/messages";
-
-type Option = { value: string; label: string };
-
-function SettingSelect({
-  value,
-  onChange,
-  options,
-  disabled,
-}: {
-  value: string;
-  onChange: (value: string) => void;
-  options: Option[];
-  disabled?: boolean;
-}) {
-  return (
-    <Select value={value} onValueChange={(v) => onChange(v as string)} disabled={disabled}>
-      <SelectTrigger className="w-full">
-        <SelectValue>
-          {(val: unknown) =>
-            options.find((o) => o.value === val)?.label ?? ""
-          }
-        </SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((o) => (
-          <SelectItem key={o.value} value={o.value}>
-            {o.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="grid gap-2">
-      <Label>{label}</Label>
-      {children}
-    </div>
-  );
-}
 
 const SIDES_LABELS: Record<Sides, string> = {
   "one-sided": t.print.oneSided,
