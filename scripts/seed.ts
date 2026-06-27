@@ -10,6 +10,8 @@
  * admin-session check, so this can bootstrap the very first admin. Open the
  * printed link to register your passkey.
  */
+import "./load-env"; // must run before any module that reads process.env
+
 import { auth } from "@/lib/auth/auth";
 import { takeEnrollmentLink } from "@/lib/auth/enrollment";
 

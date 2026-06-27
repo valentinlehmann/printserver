@@ -222,7 +222,7 @@ export function ScanSettingsForm({
                 <RotateCcwIcon />
                 {t.scan.submit}
               </Button>
-              <Button render={<a href={resultUrl} download />}>
+              <Button nativeButton={false} render={<a href={resultUrl} download />}>
                 <DownloadIcon />
                 {snapshot?.resultMime === "application/zip"
                   ? t.scan.downloadZip

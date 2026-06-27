@@ -3,6 +3,8 @@
  * Run with `pnpm migrate`. Safe to re-run — only missing tables/columns are
  * created. Honors DATABASE_PATH (defaults to ./data/sqlite.db).
  */
+import "./load-env"; // must run before any module that reads process.env
+
 import { getMigrations } from "better-auth/db/migration";
 
 import { auth } from "@/lib/auth/auth";
