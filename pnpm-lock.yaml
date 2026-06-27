@@ -41,6 +41,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      ipp:
+        specifier: ^2.0.1
+        version: 2.0.1
       lucide-react:
         specifier: ^1.21.0
         version: 1.21.0(react@19.2.4)
@@ -84,6 +87,9 @@ importers:
       '@types/better-sqlite3':
         specifier: ^7.6.13
         version: 7.6.13
+      '@types/ipp':
+        specifier: ^2.0.5
+        version: 2.0.5
       '@types/node':
         specifier: ^20
         version: 20.19.43
@@ -1312,6 +1318,9 @@ packages:
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
+
+  '@types/ipp@2.0.5':
+    resolution: {integrity: sha512-urVWEq8xGZyj9ddEXWaGotJ6uu2Jnn8qvUmsf2nWvQmOO5fw0ErUJGQE8nVHaIpe1fRsZ3ylSigySKT4xXvuwg==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -2578,6 +2587,10 @@ packages:
   ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
+
+  ipp@2.0.1:
+    resolution: {integrity: sha512-p5dO2BXAVDnkv6IhUBupwydkq5/uw+DE+MGXnYzziNK1AtuLgbT9dFfJ3f8pA+J21n43TYipm6et/hTDEFJU/A==}
+    engines: {node: <4.0.0}
 
   is-array-buffer@3.0.5:
     resolution: {integrity: sha512-DDfANUiiG2wC1qawP66qlTugJeL5HyzMpfr8lLK+jMQirGzNod0B12cFB/9q838Ru27sBwfw78/rdoU7RERz6A==}
@@ -5042,6 +5055,10 @@ snapshots:
 
   '@types/estree@1.0.9': {}
 
+  '@types/ipp@2.0.5':
+    dependencies:
+      '@types/node': 20.19.43
+
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
@@ -6429,6 +6446,8 @@ snapshots:
   ip-address@10.2.0: {}
 
   ipaddr.js@1.9.1: {}
+
+  ipp@2.0.1: {}
 
   is-array-buffer@3.0.5:
     dependencies:

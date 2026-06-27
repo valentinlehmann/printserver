@@ -133,7 +133,12 @@ export async function getPrinterCapabilities(): Promise<PrinterCapabilities> {
   if (!hasPrinterConfigured()) {
     return GX7100_FALLBACK;
   }
-  // TODO(M4): query live IPP Get-Printer-Attributes via lib/print/ipp.ts and
-  // fall back to GX7100_FALLBACK on connection/parse errors.
-  return GX7100_FALLBACK;
+  try {
+    const { queryPrinterAttributes } = await import("@/lib/print/ipp");
+    const attrs = await queryPrinterAttributes();
+    return fromIppAttributes(attrs);
+  } catch {
+    // Printer unreachable / unparseable response: degrade to the static profile.
+    return GX7100_FALLBACK;
+  }
 }
