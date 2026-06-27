@@ -19,12 +19,14 @@ export const de = {
   nav: {
     print: "Drucken",
     scan: "Scannen",
+    status: "Status",
     admin: "Verwaltung",
   },
 
   header: {
     print: "Drucken",
     scan: "Scannen",
+    status: "Status",
     admin: "Verwaltung",
   },
 
@@ -174,6 +176,44 @@ export const de = {
     linkCopied: "Link kopiert.",
     roleAdmin: "Administrator",
     roleUser: "Nutzer",
+  },
+
+  status: {
+    title: "Druckerstatus",
+    subtitle: "Aktueller Status und Warteschlange des Druckers.",
+    online: "Online",
+    offline: "Nicht erreichbar",
+    offlineHint:
+      "Der Drucker antwortet nicht. Prüfe, ob er eingeschaltet und mit dem Netzwerk verbunden ist.",
+    state: "Status",
+    stateIdle: "Bereit",
+    stateProcessing: "Druckt …",
+    stateStopped: "Angehalten",
+    stateOffline: "Nicht erreichbar",
+    note: "Hinweis",
+    queue: "Warteschlange",
+    noJobs: "Keine Aufträge in der Warteschlange.",
+    ink: "Tintenstände",
+    refresh: "Aktualisieren",
+    // job states
+    jobPending: "Wartet",
+    jobProcessing: "Wird gedruckt",
+    jobHeld: "Angehalten",
+    jobAborted: "Abgebrochen (Fehler)",
+    jobCanceled: "Abgebrochen",
+    jobCompleted: "Fertig",
+    jobUnknown: "Unbekannt",
+    // common printer-state-reasons
+    reasonMediaEmpty: "Kein Papier",
+    reasonMediaNeeded: "Papier einlegen",
+    reasonMediaJam: "Papierstau",
+    reasonMarkerSupplyLow: "Tinte niedrig",
+    reasonMarkerSupplyEmpty: "Tinte leer",
+    reasonCoverOpen: "Abdeckung offen",
+    reasonDoorOpen: "Klappe offen",
+    reasonPaused: "Pausiert",
+    reasonOffline: "Offline",
+    reasonShutdown: "Ausgeschaltet",
   },
 
   printer: {

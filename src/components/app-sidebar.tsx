@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { PrinterIcon, ScanLineIcon, ShieldIcon } from "lucide-react";
+import { PrinterIcon, ScanLineIcon, ShieldIcon, ActivityIcon } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -22,6 +22,7 @@ import { t } from "@/lib/messages";
 const navMain = [
   { title: t.nav.print, url: "/print", icon: PrinterIcon },
   { title: t.nav.scan, url: "/scan", icon: ScanLineIcon },
+  { title: t.nav.status, url: "/status", icon: ActivityIcon },
 ];
 
 type SidebarUser = {

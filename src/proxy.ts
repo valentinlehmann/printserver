@@ -6,7 +6,7 @@ import { getSessionCookie } from "better-auth/cookies";
 // Optimistic gate: redirects to /login when no session cookie is present.
 // This is a cheap check only — the authoritative session validation happens
 // server-side in the (app) layout and in every printer route handler.
-const PROTECTED_PREFIXES = ["/print", "/scan", "/admin"];
+const PROTECTED_PREFIXES = ["/print", "/scan", "/status", "/admin"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -26,5 +26,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/print/:path*", "/scan/:path*", "/admin/:path*"],
+  matcher: ["/print/:path*", "/scan/:path*", "/status/:path*", "/admin/:path*"],
 };

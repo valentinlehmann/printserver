@@ -8,6 +8,7 @@ import { t } from "@/lib/messages";
 
 function titleForPath(pathname: string): string {
   if (pathname.startsWith("/scan")) return t.header.scan;
+  if (pathname.startsWith("/status")) return t.header.status;
   if (pathname.startsWith("/admin")) return t.header.admin;
   return t.header.print;
 }

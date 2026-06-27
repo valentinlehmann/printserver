@@ -25,9 +25,9 @@ function newPrinter() {
  * printer-attributes-tag object (normalized by fromIppAttributes elsewhere).
  * Throws on connection errors so the caller can fall back.
  */
-export async function queryPrinterAttributes(): Promise<
-  Record<string, unknown>
-> {
+export async function queryPrinterAttributes(
+  attributes: string[] = REQUESTED_ATTRIBUTES,
+): Promise<Record<string, unknown>> {
   const printer = newPrinter();
   const res = await new Promise<Record<string, unknown>>((resolve, reject) => {
     printer.execute(
@@ -35,7 +35,7 @@ export async function queryPrinterAttributes(): Promise<
       {
         "operation-attributes-tag": {
           "requesting-user-name": "printerserver",
-          "requested-attributes": REQUESTED_ATTRIBUTES,
+          "requested-attributes": attributes,
         },
         // @types/ipp's request shape omits requested-attributes here.
       } as unknown as Parameters<typeof printer.execute>[1],
@@ -46,6 +46,42 @@ export async function queryPrinterAttributes(): Promise<
     );
   });
   return res;
+}
+
+/** Run Get-Jobs and return the raw per-job attribute objects (normalized to an array). */
+export async function getJobsRaw(
+  whichJobs: "not-completed" | "completed" = "not-completed",
+): Promise<Record<string, unknown>[]> {
+  const printer = newPrinter();
+  const res = await new Promise<{
+    "job-attributes-tag"?:
+      | Record<string, unknown>
+      | Record<string, unknown>[];
+  }>((resolve, reject) => {
+    printer.execute(
+      "Get-Jobs",
+      {
+        "operation-attributes-tag": {
+          "requesting-user-name": "printerserver",
+          "which-jobs": whichJobs,
+          "requested-attributes": [
+            "job-id",
+            "job-name",
+            "job-state",
+            "job-state-reasons",
+            "job-originating-user-name",
+          ],
+        },
+      } as unknown as Parameters<typeof printer.execute>[1],
+      (err: Error | null, r) => {
+        if (err) reject(err);
+        else resolve(r as never);
+      },
+    );
+  });
+  const tag = res["job-attributes-tag"];
+  if (!tag) return [];
+  return Array.isArray(tag) ? tag : [tag];
 }
 
 export interface PrintResult {
