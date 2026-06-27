@@ -1,5 +1,7 @@
-# Allow native build scripts only for the packages we explicitly trust.
-# better-sqlite3 ships a native addon and must run its build script.
-onlyBuiltDependencies:
-  - better-sqlite3
-  - sharp
+# Native build-script decisions (pnpm blocks build scripts by default).
+# better-sqlite3 is a native addon and must compile.
+# sharp / unrs-resolver ship prebuilt binaries, so their scripts are skipped.
+allowBuilds:
+  better-sqlite3: true
+  sharp: false
+  unrs-resolver: false
