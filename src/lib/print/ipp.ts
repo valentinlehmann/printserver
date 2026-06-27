@@ -93,6 +93,8 @@ export interface PrintResult {
   documentFormat?: string;
   /** Formats the printer advertises (for diagnostics on failure). */
   supportedFormats?: string[];
+  /** CUPS request id (when printed via the CUPS backend). */
+  requestId?: string;
 }
 
 const FORMAT_NOT_SUPPORTED = "client-error-document-format-not-supported";

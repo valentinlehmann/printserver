@@ -26,7 +26,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm build
 
-# ---- runner: minimal production image --------------------------------------
+# ---- runner: production image (Next.js standalone + CUPS) ------------------
 FROM ${NODE_IMAGE} AS runner
 WORKDIR /app
 ENV NODE_ENV=production
@@ -36,18 +36,24 @@ ENV HOSTNAME=0.0.0.0
 # SQLite database lives on a mounted volume.
 ENV DATABASE_PATH=/data/sqlite.db
 
-RUN groupadd --system --gid 1001 nodejs \
-  && useradd --system --uid 1001 --gid nodejs nextjs \
-  && mkdir -p /data && chown nextjs:nodejs /data
+# CUPS scheduler + client + IPP-Everywhere rasterizing filters. CUPS converts
+# the uploaded PDF into the printer's native raster format (the printer cannot
+# render PDF itself). Runs as root so cupsd/lpadmin work.
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+     cups-daemon cups-client cups-filters \
+  && rm -rf /var/lib/apt/lists/* \
+  && mkdir -p /data
 
 # Standalone server + assets. The standalone trace bundles the better-sqlite3
 # native binding alongside server.js.
 COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-USER nextjs
 EXPOSE 3000
 VOLUME ["/data"]
 
-CMD ["node", "server.js"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

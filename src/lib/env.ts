@@ -25,6 +25,14 @@ const schema = z.object({
   PRINTER_ESCL_PORT: z.coerce.number().int().positive().default(80),
   PRINTER_ESCL_PATH: z.string().default("/eSCL"),
 
+  // CUPS print backend (preferred — rasterizes PDF for the printer). If a queue
+  // with this name already exists it is used as-is; otherwise an IPP-Everywhere
+  // queue pointing at PRINTER_IP is created on demand.
+  PRINTER_QUEUE_NAME: z.string().default("printserver"),
+  // Force a print backend: "auto" (CUPS if `lp` exists, else direct IPP),
+  // "cups", or "ipp".
+  PRINT_BACKEND: z.enum(["auto", "cups", "ipp"]).default("auto"),
+
   // --- Auth ---------------------------------------------------------------
   BETTER_AUTH_SECRET: z
     .string()
