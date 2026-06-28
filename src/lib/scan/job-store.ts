@@ -32,7 +32,7 @@ interface Job {
 }
 
 // Single-container deployment => an in-memory map is correct. Jobs do not
-// survive a restart (acceptable for a family tool). Shared across dev reloads.
+// survive a restart (acceptable for this small self-hosted tool). Shared across dev reloads.
 const globalForJobs = globalThis as unknown as {
   __scanJobs?: Map<string, Job>;
 };

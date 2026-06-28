@@ -1,6 +1,6 @@
-# Familie Drucker — Remote Print & Scan
+# Printserver — Remote Print & Scan
 
-A self-hosted web app that lets family members **outside the home network**
+A self-hosted web app that lets authorized users **outside the home network**
 print to and scan from a **Canon GX7100-series** multifunction printer on the
 LAN. It runs in Docker on a host inside the network (so it can reach the printer
 by IP) and is exposed to the internet through your existing **Caddy** reverse
@@ -25,7 +25,7 @@ code and these docs are in English.
 ## Architecture
 
 ```
- family device ──HTTPS──▶ Caddy (TLS) ──▶ Docker: Next.js app ─┬─ IPP  :631  ─▶ printer
+ remote device ──HTTPS──▶ Caddy (TLS) ──▶ Docker: Next.js app ─┬─ IPP  :631  ─▶ printer
  (outside LAN)                              (on the home LAN)   └─ eSCL :80   ─▶ printer
 ```
 

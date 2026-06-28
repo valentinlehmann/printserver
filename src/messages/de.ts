@@ -155,7 +155,7 @@ export const de = {
 
   admin: {
     title: "Verwaltung",
-    subtitle: "Familienmitglieder anlegen und Einrichtungslinks erzeugen.",
+    subtitle: "Nutzer anlegen und Einrichtungslinks erzeugen.",
     createUserTitle: "Nutzer anlegen",
     createUserDesc:
       "Lege ein Konto an. Anschließend wird ein einmaliger Einrichtungslink erzeugt, den du teilen kannst.",
@@ -171,7 +171,7 @@ export const de = {
     reissue: "Neuer Einrichtungslink",
     linkLabel: "Einrichtungslink",
     linkHint:
-      "Einmalig gültig. Teile ihn sicher mit dem Familienmitglied (z. B. per Messenger).",
+      "Einmalig gültig. Teile ihn sicher mit der Person (z. B. per Messenger).",
     copyLink: "Link kopieren",
     linkCopied: "Link kopiert.",
     roleAdmin: "Administrator",

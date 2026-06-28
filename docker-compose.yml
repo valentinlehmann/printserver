@@ -21,7 +21,7 @@ services:
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL}
       PASSKEY_RP_ID: ${PASSKEY_RP_ID}
-      PASSKEY_RP_NAME: ${PASSKEY_RP_NAME:-Familie Drucker}
+      PASSKEY_RP_NAME: ${PASSKEY_RP_NAME:-Printserver}
       # --- Limits / persistence ---
       DATABASE_PATH: /data/sqlite.db
       MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-100}

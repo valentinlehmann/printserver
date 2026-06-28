@@ -16,7 +16,7 @@ export default async function AppLayout({
   if (!session) redirect("/login");
 
   const user = {
-    name: session.user.name || "Familienmitglied",
+    name: session.user.name || "Nutzer",
     email: session.user.email,
   };
   const isAdmin = session.user.role === "admin";

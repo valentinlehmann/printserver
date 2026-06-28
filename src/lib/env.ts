@@ -40,7 +40,7 @@ const schema = z.object({
     .default("dev-only-insecure-secret-change-me"),
   BETTER_AUTH_URL: z.string().url().default("http://localhost:3000"),
   PASSKEY_RP_ID: z.string().default("localhost"),
-  PASSKEY_RP_NAME: z.string().default("Familie Drucker"),
+  PASSKEY_RP_NAME: z.string().default("Printserver"),
 
   // --- Persistence & limits ----------------------------------------------
   DATABASE_PATH: z.string().default("./data/sqlite.db"),
